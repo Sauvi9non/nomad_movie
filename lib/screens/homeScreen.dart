@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nomad_movie/screens/detailScreen.dart';
 import 'package:nomad_movie/services/api_services.dart';
 import '../models/popular_movie_model.dart';
 
@@ -79,13 +80,30 @@ class HomeScreen extends StatelessWidget {
       itemCount: movies.length,
       itemBuilder: (context, index) {
         final movie = movies[index];
-        return Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-          ),
-          clipBehavior: Clip.hardEdge,
-          child: Image.network(
-            movie.posterPath,
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => DetailScreen(
+                        title: movie.title,
+                        posterPath: movie.posterPath,
+                        voteAverage: movie.voteAverage,
+                        overview: movie.overview,
+                        releaseDate: movie.releaseDate,
+                        id: movie.id)));
+          },
+          child: Hero(
+            tag: movie.id,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+              ),
+              clipBehavior: Clip.hardEdge,
+              child: Image.network(
+                movie.posterPath,
+              ),
+            ),
           ),
         );
       },
